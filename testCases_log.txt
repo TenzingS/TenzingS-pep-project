@@ -11,41 +11,22 @@
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ Challenges ---
 [INFO] Changes detected - recompiling the module!
 [WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
-[INFO] Compiling 7 source files to /workspace/TenzingS-pep-project/target/classes
+[INFO] Compiling 9 source files to /workspace/TenzingS-pep-project/target/classes
 [INFO] -------------------------------------------------------------
 [ERROR] COMPILATION ERROR : 
 [INFO] -------------------------------------------------------------
-[ERROR] /workspace/TenzingS-pep-project/src/main/java/DAO/AccountDAO.java:[19,84] cannot find symbol
-  symbol:   variable Statement
-  location: class DAO.AccountDAO
-[ERROR] /workspace/TenzingS-pep-project/src/main/java/DAO/AccountDAO.java:[21,51] method setUsername in class Model.Account cannot be applied to given types;
-  required: java.lang.String
-  found: no arguments
-  reason: actual and formal argument lists differ in length
-[ERROR] /workspace/TenzingS-pep-project/src/main/java/DAO/AccountDAO.java:[27,65] method setUsername in class Model.Account cannot be applied to given types;
-  required: java.lang.String
-  found: no arguments
-  reason: actual and formal argument lists differ in length
-[INFO] 3 errors 
+[ERROR] /workspace/TenzingS-pep-project/src/main/java/Controller/SocialMediaController.java:[131,5] illegal start of expression
+[INFO] 1 error
 [INFO] -------------------------------------------------------------
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  4.993 s
-[INFO] Finished at: 2023-02-03T01:01:51Z
+[INFO] Total time:  3.357 s
+[INFO] Finished at: 2023-02-09T04:33:26Z
 [INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project Challenges: Compilation failure: Compilation failure: 
-[ERROR] /workspace/TenzingS-pep-project/src/main/java/DAO/AccountDAO.java:[19,84] cannot find symbol
-[ERROR]   symbol:   variable Statement
-[ERROR]   location: class DAO.AccountDAO
-[ERROR] /workspace/TenzingS-pep-project/src/main/java/DAO/AccountDAO.java:[21,51] method setUsername in class Model.Account cannot be applied to given types;
-[ERROR]   required: java.lang.String
-[ERROR]   found: no arguments
-[ERROR]   reason: actual and formal argument lists differ in length
-[ERROR] /workspace/TenzingS-pep-project/src/main/java/DAO/AccountDAO.java:[27,65] method setUsername in class Model.Account cannot be applied to given types;
-[ERROR]   required: java.lang.String
-[ERROR]   found: no arguments
-[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project Challenges: Compilation failure
+[ERROR] /workspace/TenzingS-pep-project/src/main/java/Controller/SocialMediaController.java:[131,5] illegal start of expression
+[ERROR] 
 [ERROR] -> [Help 1]
 [ERROR] 
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.

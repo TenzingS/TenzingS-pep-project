@@ -1,6 +1,9 @@
 package Service;
 
 import Model.Account;
+
+import org.eclipse.jetty.util.security.Password;
+
 import DAO.AccountDAO;
 
 public class AccountService {
@@ -15,11 +18,16 @@ public class AccountService {
     }
 
     public Account addAccount(Account account){
-        return accountDAO.registerAccount(account);
+        Account accountFromDB = this.accountDAO.getAccountByUsername(account.getUsername());
+        if(account.username != "" && account.password.length() >=4 && accountFromDB != null){
+            return accountDAO.registerAccount(account);
+        }
+        return null;
     }
 
-    public Account logIn(String username, String password){
-        return accountDAO.userLogin(username, password);
+    public Account logIn(Account account){
+        accountDAO.userLogin(account);
+        return account;
     }
 
 }
