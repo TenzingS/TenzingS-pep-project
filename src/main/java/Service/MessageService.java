@@ -23,13 +23,11 @@ public class MessageService {
 
     public Message createMessage(Message message){
         String message_text = message.getMessage_text();
-        int posted_by = message.getPosted_by();
-
-        if(posted_by == 0) return null;
-        if(message_text != "" && message_text.length() < 255){
+        if(!message_text.isBlank() && message_text.length() < 255){
             return messageDAO.createMessage(message);
+        }else {
+            return null;
         }
-        return null;
     }
 
     public Message getMessageByID(int message_id) {
@@ -39,25 +37,29 @@ public class MessageService {
     public Message deleteMessageByID(int message_id) {
         Message messageFromDB = this.messageDAO.getMessageByID(message_id);
         
-        if(messageFromDB == null){
-            return null;
-        } else{
+        if(messageFromDB != null){
+            Message message = messageDAO.getMessageByID(message_id);
             messageDAO.deleteMessageByID(message_id);
+            return message;
+        } else{
+            return null;
         }
-        return messageFromDB;
     }
 
     public Message updateMessageByID(Message message, int message_id) {
-        Message messageFromDB = this.messageDAO.getMessageByID(message_id);
+        String message_text = message.getMessage_text();
 
-        if(messageFromDB == null) return null;
-        messageDAO.updateMessageByID(message, message_id);
-        return messageFromDB;
+        if(!message_text.isBlank() && message_text.length() < 255){
+            Message updatedMessage = this.messageDAO.getMessageByID(message_id);
+            messageDAO.updateMessageByID(message_text, message_id);
+            return updatedMessage;
+        }
+        return null;
     }
 
-    // public List<Message> getMessagesByAccountID(Account account, int account_id) {
-        //login first and then get the messages
-    //     return messageDAO.getMessagesByAccountID(account_id);
-    // }
+    public List<Message> getMessagesByAccountID(int posted_by) {
+        
+        return messageDAO.getMessagesByAccountID(posted_by);
+    }
     
 }

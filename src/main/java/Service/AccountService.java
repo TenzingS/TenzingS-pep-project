@@ -18,8 +18,6 @@ public class AccountService {
     }
 
     public Account addAccount(Account account){
-        String accountUsername = account.getUsername();
-        Account accountFromDB = this.accountDAO.getAccountByUsername(accountUsername);
         if(account.username != "" && account.password.length() >=4){
             return accountDAO.registerAccount(account);
         }
@@ -29,8 +27,13 @@ public class AccountService {
     public Account logIn(Account account){
         String username = account.getUsername();
         String password = account.getPassword();
-        accountDAO.userLogin(username, password);
-        return account;
+        Account accountFromDB = accountDAO.getAccountByUsername(username); 
+
+        if(accountFromDB != null && !username.isBlank()){
+            return this.accountDAO.userLogin(username, password);
+        }else{
+            return null;
+        }
     }
 
 }

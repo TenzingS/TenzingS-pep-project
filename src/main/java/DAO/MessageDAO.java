@@ -34,7 +34,7 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         try{
             String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES (?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, message.getPosted_by());
             preparedStatement.setString(2, message.getMessage_text());
@@ -43,7 +43,7 @@ public class MessageDAO {
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if(rs.next()){
-                int generated_message_id = (int) rs.getLong(1);
+                int generated_message_id = (int)rs.getLong(1);
                 return new Message(generated_message_id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
             }
         }catch(SQLException e){
@@ -90,14 +90,14 @@ public class MessageDAO {
         return null;
     }
 
-    public Message updateMessageByID(Message message, int message_id){
+    public Message updateMessageByID(String message_text, int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
             String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, message.getMessage_text());
+            preparedStatement.setString(1, message_text);
             preparedStatement.setInt(2, message_id);
 
             preparedStatement.executeUpdate();
@@ -109,16 +109,16 @@ public class MessageDAO {
         return null;
     }
 
-    public List<Message> getMessagesByAccountID(int account_id){
+    public List<Message> getMessagesByAccountID(int posted_by){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
             //Write SQL logic here
-            String sql = "SELECT * FROM message INNER JOIN account ON message.posted_by = ? ";
+            String sql = "SELECT * FROM message WHERE posted_by = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setInt method here.
-            preparedStatement.setInt(1, account_id);
+            preparedStatement.setInt(1, posted_by);
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){

@@ -42,7 +42,7 @@ public class SocialMediaController {
         app.get("messages/{message_id}", this::getMessageByIDHandler);
         app.delete("messages/{message_id}", this::deleteMessageByIDHandler);
         app.patch("messages/{message_id}", this::updateMessageByIDHandler);
-        // app.get("accounts/{account_id}/messages", this::getMessagesByAccountIDHandler);
+        app.get("accounts/{account_id}/messages", this::getMessagesByAccountIDHandler);
         return app;
     }
 
@@ -67,7 +67,9 @@ public class SocialMediaController {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
         Account userLogIn = accountService.logIn(account);
-        ctx.json(om.writeValueAsString(userLogIn));
+        if(userLogIn != null || account != null){
+            ctx.json(om.writeValueAsString(userLogIn));
+        }
     }
 
     private void createMessagesHandler(Context ctx) throws JsonMappingException, JsonProcessingException {
@@ -94,6 +96,8 @@ public class SocialMediaController {
         if(messagebyID != null){
             ctx.result(om.writeValueAsString(messagebyID));
             ctx.status(200);
+        }else{
+            ctx.status(401);
         }
     }
 
@@ -117,13 +121,11 @@ public class SocialMediaController {
         }
     }
 
-    // private void getMessagesByAccountIDHandler(Context ctx) {
-    //     ObjectMapper om = new ObjectMapper();
-    //     Account account = om.readValue(ctx.body(), Account.class);
-    //     int account_id = Integer.parseInt(ctx.pathParam("account_id"));
-    //     List<Message> messages = messageService.getMessagesByAccountID(account_id, account);
-    //     ctx.json(messages);
-    // }
+    private void getMessagesByAccountIDHandler(Context ctx) throws JsonMappingException, JsonProcessingException {
+        int posted_by = Integer.parseInt(ctx.pathParam("account_id"));
+        List<Message> messages = messageService.getMessagesByAccountID(posted_by);
+        ctx.json(messages);
+    }
 
 
 }
