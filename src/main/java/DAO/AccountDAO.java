@@ -4,10 +4,6 @@ import Model.Account;
 import Util.ConnectionUtil;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.security.auth.login.AccountExpiredException;
 
 public class AccountDAO {
 
@@ -29,7 +25,7 @@ public class AccountDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return account;
+        return null;
     }
 
     public Account userLogin(String username, String password) {
@@ -45,9 +41,8 @@ public class AccountDAO {
             if(rs.next()){
                 Account account = new Account(rs.getInt("account_id"), rs.getString("username"),
                 rs.getString("password"));
-        return account;
+                return account;
             }
-            return account;
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -70,12 +65,13 @@ public class AccountDAO {
             while(rs.next()){
                 Account account = new Account(rs.getInt("account_id"), rs.getString("username"),
                         rs.getString("password"));
+                        System.out.print(account.getUsername());
                 return account;
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return account;
+        return null;
     }
 
     
@@ -88,7 +84,7 @@ public class AccountDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setString and setInt methods here.
-            preparedStatement.setString(1, posted_by);
+            preparedStatement.setInt(1, posted_by);
 
 
             ResultSet rs = preparedStatement.executeQuery();
@@ -100,7 +96,7 @@ public class AccountDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return account;
+        return null;
     }
 
 

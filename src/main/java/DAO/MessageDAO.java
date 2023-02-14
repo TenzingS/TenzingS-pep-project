@@ -2,7 +2,6 @@ package DAO;
 
 import java.sql.*;
 
-import Model.Account;
 import Model.Message;
 import Util.ConnectionUtil;
 import java.util.ArrayList;
@@ -74,7 +73,7 @@ public class MessageDAO {
         return null;
     }
 
-    public Message deleteMessageByID(Message message, int message_id){
+    public Message deleteMessageByID(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
@@ -84,10 +83,11 @@ public class MessageDAO {
             preparedStatement.setInt(1, message_id);
 
             preparedStatement.executeQuery();
+            return getMessageByID(message_id);
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return message;
+        return null;
     }
 
     public Message updateMessageByID(Message message, int message_id){
@@ -100,12 +100,13 @@ public class MessageDAO {
             preparedStatement.setString(1, message.getMessage_text());
             preparedStatement.setInt(2, message_id);
 
-            preparedStatement.executeQuery(); 
+            preparedStatement.executeUpdate();
+            return getMessageByID(message_id);
            
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return message;
+        return null;
     }
 
     public List<Message> getMessagesByAccountID(int account_id){

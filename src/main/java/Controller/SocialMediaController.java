@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import java.security.interfaces.RSAPrivateCrtKey;
 import java.util.List;
 
 /**
@@ -51,7 +50,7 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void registerHandler(javax.naming.Context ctx) throws JsonProcessingException {
+    private void registerHandler(Context ctx) throws JsonProcessingException {
 
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
@@ -67,9 +66,7 @@ public class SocialMediaController {
     private void userLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        String username = String.parseInt(ctx.pathParam("username"));
-        String password = String.parseInt(ctx.pathParam("password"));
-        Account userLogIn = accountService.logIn(account, username, password);
+        Account userLogIn = accountService.logIn(account);
         ctx.json(om.writeValueAsString(userLogIn));
     }
 
@@ -91,7 +88,7 @@ public class SocialMediaController {
     }
 
     private void getMessageByIDHandler(Context ctx) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper om = new ObjectMapper();
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message messagebyID = messageService.getMessageByID(message_id);
         if(messagebyID != null){
@@ -101,12 +98,10 @@ public class SocialMediaController {
     }
 
     private void deleteMessageByIDHandler(Context ctx) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), Message.class);
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        Message deleteMessage = messageService.deleteMessageByID(message, message_id);
+        Message deleteMessage = messageService.deleteMessageByID(message_id);
         if(deleteMessage != null){
-            ctx.result(om.writeValueAsString(deleteMessage));
+            ctx.json(deleteMessage);
             ctx.status(200);
         }
     }
@@ -116,8 +111,8 @@ public class SocialMediaController {
         Message message = mapper.readValue(ctx.body(), Message.class);
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message updatedMessage = messageService.updateMessageByID(message, message_id);
-        if(updatedMessage != null){
-            ctx.result(om.writeValueAsString(updatedMessage));
+        if(updatedMessage != null ){
+            ctx.json(updatedMessage);
             ctx.status(200);
         }
     }
