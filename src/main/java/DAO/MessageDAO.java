@@ -113,7 +113,7 @@ public class MessageDAO {
         List<Message> messages = new ArrayList<>();
         try {
             //Write SQL logic here
-            String sql = "SELECT * FROM message WHERE account_id = ?";
+            String sql = "SELECT * FROM message INNER JOIN account ON message.posted_by = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setInt method here.

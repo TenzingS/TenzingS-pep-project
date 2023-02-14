@@ -37,7 +37,7 @@ public class SocialMediaController {
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         app.post("register", this::registerHandler);
-        app.post("login", this::loginHandler);
+        app.post("login", this::userLoginHandler);
         app.post("messages", this::createMessagesHandler);
         app.get("messages", this::getMessagesHandler);
         app.get("messages/{message_id}", this::getMessageByIDHandler);
@@ -51,22 +51,25 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void registerHandler(Context ctx) throws JsonProcessingException {
+    private void registerHandler(javax.naming.Context ctx) throws JsonProcessingException {
 
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
         Account addAccount = accountService.addAccount(account);
         if(addAccount!=null){
             ctx.json(om.writeValueAsString(addAccount));
+            ctx.status(200);
         }else{
             ctx.status(400);
         }
     }
 
-    private void loginHandler(Context ctx) throws JsonProcessingException {
+    private void userLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        Account userLogIn = accountService.logIn(account);
+        String username = String.parseInt(ctx.pathParam("username"));
+        String password = String.parseInt(ctx.pathParam("password"));
+        Account userLogIn = accountService.logIn(account, username, password);
         ctx.json(om.writeValueAsString(userLogIn));
     }
 
@@ -88,10 +91,11 @@ public class SocialMediaController {
     }
 
     private void getMessageByIDHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        Message message = messageService.getMessageByID(message_id);
-        if(message != null){
-            ctx.json(message);
+        Message messagebyID = messageService.getMessageByID(message_id);
+        if(messagebyID != null){
+            ctx.result(om.writeValueAsString(messagebyID));
             ctx.status(200);
         }
     }
@@ -102,7 +106,7 @@ public class SocialMediaController {
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message deleteMessage = messageService.deleteMessageByID(message, message_id);
         if(deleteMessage != null){
-            ctx.json(deleteMessage);
+            ctx.result(om.writeValueAsString(deleteMessage));
             ctx.status(200);
         }
     }
@@ -113,7 +117,7 @@ public class SocialMediaController {
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message updatedMessage = messageService.updateMessageByID(message, message_id);
         if(updatedMessage != null){
-            ctx.json(updatedMessage);
+            ctx.result(om.writeValueAsString(updatedMessage));
             ctx.status(200);
         }
     }

@@ -1,7 +1,7 @@
-commit 7a37fc98777f303597dc7924faf6a55afd755da2
+commit 2f6ebcd1e3360faa3eb50196845cdc33ffaa6fdb
 Author: Tenzing Sherpa <thesherpatenzing@gmail.com>
-Date:   Thu Feb 9 04:33:20 2023 +0000
+Date:   Mon Feb 13 03:20:04 2023 +0000
 
-    almost got it
+    have the idea
 
- 7 files changed, 303 insertions(+), 1666 deletions(-)
+ 7 files changed, 162 insertions(+), 100 deletions(-)
