@@ -36,18 +36,13 @@ public class MessageService {
 
     public Message deleteMessageByID(int message_id) {
         Message messageFromDB = this.messageDAO.getMessageByID(message_id);
-        
-        if(messageFromDB != null){
-            Message message = messageDAO.getMessageByID(message_id);
-            messageDAO.deleteMessageByID(message_id);
-            return message;
-        } else{
+        messageDAO.deleteMessageByID(message_id);
+        if(messageFromDB == null){
             return null;
-        }
+        }return messageFromDB;
     }
 
     public Message updateMessageByID(Message message, int message_id) {
-        String message_text = message.getMessage_text();
         if(messageDAO.getMessageByID(message_id) != null){
             return messageDAO.updateMessageByID(message, message_id);
         }
@@ -55,7 +50,6 @@ public class MessageService {
     }
 
     public List<Message> getMessagesByAccountID(int posted_by) {
-        
         return messageDAO.getMessagesByAccountID(posted_by);
     }
     

@@ -28,14 +28,3 @@ public class AccountService {
     }
 
 }
-
-        // String username = account.getUsername();
-        // String password = account.getPassword();
-
-        // Account accountFromDB = accountDAO.getAccountByUsername(username); 
-
-        // if(accountFromDB != null || !username.isBlank()){
-        //     return this.accountDAO.userLogin(username, password);
-        // }else{
-        //     return null;
-        // }

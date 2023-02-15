@@ -44,7 +44,11 @@ public class MessageDAO {
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if(rs.next()){
                 int generated_message_id = (int)rs.getLong(1);
-                return new Message(generated_message_id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
+                return new Message(
+                        generated_message_id, 
+                        message.getPosted_by(), 
+                        message.getMessage_text(), 
+                        message.getTime_posted_epoch());
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -63,9 +67,11 @@ public class MessageDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message message = new Message (rs.getInt("message_id"), rs.getInt("posted_by"), 
-                        rs.getString("message_text"), rs.getLong("time_posted_epoch"));
-                return message;
+                return new Message(
+                        rs.getInt("message_id"), 
+                        rs.getInt("posted_by"), 
+                        rs.getString("message_text"), 
+                        rs.getLong("time_posted_epoch"));
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -82,7 +88,7 @@ public class MessageDAO {
 
             preparedStatement.setInt(1, message_id);
 
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             return getMessageByID(message_id);
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -120,7 +126,8 @@ public class MessageDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message message = new Message(rs.getInt("message_id"),
+                Message message = new Message(
+                        rs.getInt("message_id"),
                         rs.getInt("posted_by"),
                         rs.getString("message_text"),
                         rs.getInt("time_posted_epoch"));
