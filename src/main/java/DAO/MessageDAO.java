@@ -90,14 +90,14 @@ public class MessageDAO {
         return null;
     }
 
-    public Message updateMessageByID(String message_text, int message_id){
+    public Message updateMessageByID(Message message, int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
             String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, message_text);
+            preparedStatement.setString(1, message.getMessage_text());
             preparedStatement.setInt(2, message_id);
 
             preparedStatement.executeUpdate();
@@ -113,11 +113,9 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
-            //Write SQL logic here
             String sql = "SELECT * FROM message WHERE posted_by = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //write preparedStatement's setInt method here.
             preparedStatement.setInt(1, posted_by);
 
             ResultSet rs = preparedStatement.executeQuery();

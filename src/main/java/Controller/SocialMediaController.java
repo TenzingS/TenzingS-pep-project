@@ -66,13 +66,15 @@ public class SocialMediaController {
     private void userLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        Account userLogIn = accountService.logIn(account);
-        if(userLogIn != null || account != null){
+        Account userLogIn = accountService.logIn(account.getUsername(), account.getPassword());
+        if(userLogIn != null){
             ctx.json(om.writeValueAsString(userLogIn));
+        }else{
+            ctx.status(401);
         }
     }
 
-    private void createMessagesHandler(Context ctx) throws JsonMappingException, JsonProcessingException {
+    private void createMessagesHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Message message = om.readValue(ctx.body(), Message.class);
         Message createdMessage = messageService.createMessage(message);
@@ -115,17 +117,17 @@ public class SocialMediaController {
         Message message = mapper.readValue(ctx.body(), Message.class);
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message updatedMessage = messageService.updateMessageByID(message, message_id);
-        if(updatedMessage != null ){
+        if(updatedMessage == null || updatedMessage.message_text.isBlank()){
+            ctx.status(400);
+        }else{
             ctx.json(updatedMessage);
-            ctx.status(200);
         }
     }
 
-    private void getMessagesByAccountIDHandler(Context ctx) throws JsonMappingException, JsonProcessingException {
+    private void getMessagesByAccountIDHandler(Context ctx) throws JsonProcessingException {
         int posted_by = Integer.parseInt(ctx.pathParam("account_id"));
         List<Message> messages = messageService.getMessagesByAccountID(posted_by);
         ctx.json(messages);
     }
-
 
 }

@@ -2,8 +2,6 @@ package Service;
 
 import Model.Account;
 
-import org.eclipse.jetty.util.security.Password;
-
 import DAO.AccountDAO;
 
 public class AccountService {
@@ -24,16 +22,20 @@ public class AccountService {
         return null;
     }
 
-    public Account logIn(Account account){
-        String username = account.getUsername();
-        String password = account.getPassword();
-        Account accountFromDB = accountDAO.getAccountByUsername(username); 
+    public Account logIn(String username, String password){
 
-        if(accountFromDB != null && !username.isBlank()){
-            return this.accountDAO.userLogin(username, password);
-        }else{
-            return null;
-        }
+        return accountDAO.userLogin(username, password);
     }
 
 }
+
+        // String username = account.getUsername();
+        // String password = account.getPassword();
+
+        // Account accountFromDB = accountDAO.getAccountByUsername(username); 
+
+        // if(accountFromDB != null || !username.isBlank()){
+        //     return this.accountDAO.userLogin(username, password);
+        // }else{
+        //     return null;
+        // }

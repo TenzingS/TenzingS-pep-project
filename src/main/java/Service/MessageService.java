@@ -48,11 +48,8 @@ public class MessageService {
 
     public Message updateMessageByID(Message message, int message_id) {
         String message_text = message.getMessage_text();
-
-        if(!message_text.isBlank() && message_text.length() < 255){
-            Message updatedMessage = this.messageDAO.getMessageByID(message_id);
-            messageDAO.updateMessageByID(message_text, message_id);
-            return updatedMessage;
+        if(messageDAO.getMessageByID(message_id) != null){
+            return messageDAO.updateMessageByID(message, message_id);
         }
         return null;
     }
